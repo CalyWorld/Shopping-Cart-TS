@@ -1,6 +1,6 @@
-import { createContext, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
+import { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { CartPage } from './components/CartPage/CartPage';
 import { ContactPage } from './components/ContactPage/ContactPage';
 import { HomePage } from './components/Homepage/HomePage';
@@ -9,59 +9,16 @@ import { ShopPage } from './components/ShopPage/ShopPage';
 import { CartItem } from './components/CartPage/CartItem';
 import { Footer } from './components/Footer';
 import { useFetch } from './components/useFetch';
-
-export interface ShopCollection {
-  id: number,
-  title: string,
-  price: number,
-  description: string,
-  category: string,
-  image: string,
-  rating: {
-    rate: string,
-    count: number
-  }
-}
-
-interface ShopContextType {
-  shopProducts: ShopCollection,
-  setShopProducts: React.Dispatch<React.SetStateAction<ShopCollection>>;
-}
-
-export const ShopContext = createContext<ShopContextType>({
-  shopProducts: {
-    id: 0,
-    title: "",
-    price: 0,
-    description: "",
-    category: "",
-    image: "",
-    rating: {
-      rate: "",
-      count: 0
-    }
-  },
-  setShopProducts: () => { }
-});
-
+import { ShopCollection } from './components/contexts/shopProductContext';
+import { ShopContext } from './components/contexts/shopProductContext';
+import { initialShopProduct } from './components/contexts/shopProductContext';
 
 
 function App() {
 
   // const [cartTotal, setCartTotal] = useState(0);
 
-  const [shopProducts, setShopProducts] = useState<ShopCollection>({
-    id: 0,
-    title: "",
-    price: 0,
-    description: "",
-    category: "",
-    image: "",
-    rating: {
-      rate: "",
-      count: 0
-    }
-  });
+  const [shopProducts, setShopProducts] = useState<ShopCollection[]>([initialShopProduct]);
 
   // const [cartItem, setCartItem] = useState([]);
 
@@ -69,11 +26,11 @@ function App() {
 
   let url: string = "https://fakestoreapi.com/products/"
 
+  //make an api call and add the data into shopProducts
   useFetch(url, setShopProducts);
 
   console.log(shopProducts);
 
-  const shopStateValue = { shopProducts, setShopProducts }
 
   return (
     <div className="App">
@@ -82,7 +39,7 @@ function App() {
           {/* <ThemeContext.Provider value={theme}>
             <CartTotalContext.Provider value={cartTotal}> */}
           <NavPage />
-          <ShopContext.Provider value={shopStateValue}>
+          <ShopContext.Provider value={{ shopProducts, setShopProducts }}>
             {/* <CartItemContext.Provider value={cartItem}> */}
             <Routes>
               <Route path='/Cart:id' element={<CartItem />}></Route>

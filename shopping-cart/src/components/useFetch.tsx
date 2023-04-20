@@ -1,8 +1,8 @@
 import {useEffect } from "react";
-import { ShopCollection } from "../App";
+import { ShopCollection } from "./contexts/shopProductContext";
 
 
-export const useFetch = (url: string, setShopProducts: React.Dispatch<React.SetStateAction<ShopCollection>>) => {
+export const useFetch = (url: string, setShopProducts: React.Dispatch<React.SetStateAction<ShopCollection[]>>) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
