@@ -6,19 +6,21 @@ export const ShopPage = () => {
     const { shopProducts } = useContext(ShopContext);
 
     return (
-        <div className="grid grid-cols-3 justify-around items-center gap-4">
+        <div className="grid grid-cols-3 justify-around items-center gap-4 m-5 pointer-events-auto">
             {shopProducts.map((data) => (
-                <div key={data.id} className="flex flex-col items-center">
+                <div key={data.id} className="flex flex-col justify-between items-center gap-2 h-full">
                     <div>
-                        <img className="w-20" src={data.image} alt="productImage" />
-                    </div>
-                    <div className="w-30 h-30">
-                        <p>{data.title}</p>
+                        <img className="w-40 h-40" src={data.image} alt="productImage" />
                     </div>
                     <div>
-                        <p>${data.price}</p>
+                        {data.title}
                     </div>
-                    <div>Add item to cart</div>
+                    <div>
+                        ${data.price}
+                    </div>
+                    <div className="hover:bg-lightMidnight">
+                        <button className="hover:text-whiteTextColor">Add item to Cart</button>
+                    </div>
                 </div>
             ))}
         </div>)
