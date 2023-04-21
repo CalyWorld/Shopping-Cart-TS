@@ -1,6 +1,5 @@
 import { createContext } from "react";
-
-export let initialShopProduct = {
+export const initialShopProduct = {
     id: 0,
     title: "",
     price: 0,
