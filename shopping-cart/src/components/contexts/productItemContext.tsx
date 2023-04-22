@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-export const initalCartItemProduct = {
+export const initalProductItem = {
     id: 0,
     title: "",
     price: 0,
@@ -13,7 +13,7 @@ export const initalCartItemProduct = {
     }
 }
 
-export interface CartItemCollection {
+export interface ProductItemCollection {
     id: number,
     title: string,
     price: number,
@@ -26,12 +26,12 @@ export interface CartItemCollection {
     }
 }
 
-interface CartItemContextType {
-    cartItem: CartItemCollection[],
-    setCartItem: React.Dispatch<React.SetStateAction<CartItemCollection[]>>;
+interface ProductItemContextType {
+    productItem: ProductItemCollection[],
+    setProductItem: React.Dispatch<React.SetStateAction<ProductItemCollection[]>>;
 }
 
-export const CartItemContext = createContext<CartItemContextType>({
-    cartItem: [initalCartItemProduct],
-    setCartItem: () => { }
+export const ProductItemContext = createContext<ProductItemContextType>({
+    productItem: [initalProductItem],
+    setProductItem: () => { }
 });

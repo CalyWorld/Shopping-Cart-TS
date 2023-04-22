@@ -6,13 +6,15 @@ import { ContactPage } from './components/ContactPage/ContactPage';
 import { HomePage } from './components/Homepage/HomePage';
 import { NavPage } from './components/NavPage';
 import { ShopPage } from './components/ShopPage/ShopPage';
-import { CartItem } from './components/CartPage/CartItem';
+import { CartItem } from './components/CartPage/productItem';
 import { Footer } from './components/Footer';
 import { useFetch } from './components/useFetch';
 import { ShopCollection } from './components/contexts/shopProductContext';
 import { ShopContext } from './components/contexts/shopProductContext';
+import { ProductItemContext } from './components/contexts/productItemContext';
 import { initialShopProduct } from './components/contexts/shopProductContext';
-
+import { ProductItemCollection, initalProductItem } from './components/contexts/productItemContext';
+import { Header } from './components/Header';
 
 function App() {
 
@@ -20,7 +22,7 @@ function App() {
 
   const [shopProducts, setShopProducts] = useState<ShopCollection[]>([initialShopProduct]);
 
-  // const [cartItem, setCartItem] = useState([]);
+  const [productItem, setProductItem] = useState<ProductItemCollection[]>([initalProductItem]);
 
   // const [theme, setTheme] = useState();
 
@@ -30,6 +32,7 @@ function App() {
   useFetch(url, setShopProducts);
 
   console.log(shopProducts);
+  console.log(productItem);
 
 
   return (
@@ -38,17 +41,19 @@ function App() {
         <div id='container'>
           {/* <ThemeContext.Provider value={theme}>
             <CartTotalContext.Provider value={cartTotal}> */}
-          <NavPage />
+          <Header>
+            <NavPage />
+          </Header>
           <ShopContext.Provider value={{ shopProducts, setShopProducts }}>
-            {/* <CartItemContext.Provider value={cartItem}> */}
-            <Routes>
-              <Route path='/Cart:id' element={<CartItem />}></Route>
-              <Route path='/Shop' element={<ShopPage />}></Route>
-              <Route path='/Cart' element={<CartPage />}></Route>
-              <Route path='/Contact' element={<ContactPage />}></Route>
-              <Route path='/' element={<HomePage />}></Route>
-            </Routes>
-            {/* </CartItemContext.Provider> */}
+            <ProductItemContext.Provider value={{ productItem, setProductItem }}>
+              <Routes>
+                <Route path='/Cart/:id' element={<CartItem />}></Route>
+                <Route path='/Shop' element={<ShopPage />}></Route>
+                <Route path='/Cart' element={<CartPage />}></Route>
+                <Route path='/Contact' element={<ContactPage />}></Route>
+                <Route path='/' element={<HomePage />}></Route>
+              </Routes>
+            </ProductItemContext.Provider>
           </ShopContext.Provider>
           <Footer />
           {/* </CartTotalContext.Provider>

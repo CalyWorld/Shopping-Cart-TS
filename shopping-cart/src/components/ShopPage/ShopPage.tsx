@@ -1,9 +1,26 @@
 import { useContext } from "react"
+import { Link } from "react-router-dom";
+import { ProductItemContext } from "../contexts/productItemContext";
 import { ShopContext } from "../contexts/shopProductContext"
-
 export const ShopPage = () => {
 
     const { shopProducts } = useContext(ShopContext);
+    const { setProductItem } = useContext(ProductItemContext);
+
+    const viewSelectedCart = (data: {
+        id: number,
+        title: string,
+        price: number,
+        description: string,
+        category: string,
+        image: string,
+        rating: {
+            rate: string,
+            count: number
+        }
+    }): void => {
+        setProductItem([data]);
+    }
 
     return (
         <div className="grid grid-cols-3 justify-around items-center gap-4 m-5 pointer-events-auto">
@@ -19,7 +36,7 @@ export const ShopPage = () => {
                         ${data.price}
                     </div>
                     <div className="hover:bg-lightMidnight">
-                        <button className="hover:text-whiteTextColor">Add item to Cart</button>
+                        <Link to={`/Cart/:${data.id}`}><button className="hover:text-whiteTextColor" onClick={() => {viewSelectedCart(data) }}>Add item</button></Link>
                     </div>
                 </div>
             ))}
