@@ -1,9 +1,19 @@
 import { useContext } from "react";
 import { ProductItemContext } from "../contexts/productItemContext";
+import { ProductQuantityContext } from "../contexts/productQuantityContext";
 
 
 export const CartItem = () => {
     const { productItem } = useContext(ProductItemContext);
+    const { productQuantity, setProductQuantity } = useContext(ProductQuantityContext);
+    const increment = () => {
+        setProductQuantity(productQuantity + 1);
+    }
+
+    const decrement = () => {
+        setProductQuantity(productQuantity - 1);
+    }
+
     return (
         <div className="flex flex-col m-10">
             <div className="flex justify-end mb-5">
@@ -31,9 +41,13 @@ export const CartItem = () => {
                                 ${item.price}
                             </div>
                             <div className="flex justify-center items-center">
-                                <div className="w-4">-</div>
-                                <div>amount</div>
-                                <div className="w-4">+</div>
+                                <div className="w-4" id="decrement-button">
+                                    <button type="button" onClick={decrement}>-</button>
+                                </div>
+                                <div>{productQuantity}</div>
+                                <div className="w-4" id="increment-button">
+                                    <button type="button" onClick={increment}>+</button>
+                                </div>
                             </div>
                             <div>Total</div>
                         </div>
