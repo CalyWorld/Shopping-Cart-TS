@@ -2,17 +2,51 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { ProductItemContext } from "../contexts/productItemContext";
 import { ProductQuantityContext } from "../contexts/productQuantityContext";
+import { ShopContext } from "../contexts/shopProductContext";
 
 
 export const CartItem = () => {
-    const { productItem } = useContext(ProductItemContext);
+
+    const { productItem, setProductItem } = useContext(ProductItemContext);
     const { productQuantity, setProductQuantity } = useContext(ProductQuantityContext);
-    const increment = () => {
+
+    const increment = (): void => {
         setProductQuantity(productQuantity + 1);
     }
+    const decrement = (item: {
+        id: number,
+        title: string,
+        price: number,
+        description: string,
+        category: string,
+        image: string,
+        rating: {
+            rate: string,
+            count: number
+        }
+    }) => {
+        if (productQuantity === 1) {
+            removeProductItem(item);
+        } else {
+            setProductQuantity(productQuantity - 1);
+        }
+    }
 
-    const decrement = () => {
-        setProductQuantity(productQuantity - 1);
+    const removeProductItem = (item: {
+        id: number,
+        title: string,
+        price: number,
+        description: string,
+        category: string,
+        image: string,
+        rating: {
+            rate: string,
+            count: number
+        }
+    }) => {
+        setProductItem((eachProductItem) => (
+            eachProductItem.filter((eachProductItem) => eachProductItem.id !== item.id)
+        ));
     }
 
     return (
@@ -35,9 +69,6 @@ export const CartItem = () => {
                         </div>
                         <div>
                             <div className="mb-3">{item.title}</div>
-                            <div className="flex justify-start">
-                                <button>Remove item</button>
-                            </div>
                         </div>
                         <div id="pqt-container" className="flex gap-6">
                             <div>
@@ -45,7 +76,7 @@ export const CartItem = () => {
                             </div>
                             <div className="flex justify-center items-center">
                                 <div className="w-4" id="decrement-button">
-                                    <button type="button" onClick={decrement}>-</button>
+                                    <button type="button" onClick={()=>decrement(item)}>-</button>
                                 </div>
                                 <div>{productQuantity}</div>
                                 <div className="w-4" id="increment-button">
