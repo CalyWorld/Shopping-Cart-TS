@@ -49,45 +49,52 @@ export const CartItem = () => {
         ));
     }
 
+    const emptyProductItemCart = () => {
+        return (
+            <div>
+                <p>Cart is empty, go back to shopping</p>
+            </div>)
+    }
     return (
-        <div className="flex flex-col m-10">
-            <div className="flex justify-end mb-5">
+        productItem.length === 1 ? (
+            <div className="flex flex-col m-10">
+                <div className="flex justify-end mb-5">
+                    <div>
+                        <Link to="/Shop"><button type="button">Back Button</button></Link>
+                    </div>
+                </div>
+                <div className="flex justify-end gap-8">
+                    <div>Price</div>
+                    <div>Quantity</div>
+                    <div>Total</div>
+                </div>
                 <div>
-                    <Link to="/Shop"><button type="button">Back Button</button></Link>
+                    {productItem.map((item) => (
+                        <div key={item.id} className="flex items-center justify-between">
+                            <div>
+                                <img className="w-40 h-40" src={item.image} alt="productImage" />
+                            </div>
+                            <div>
+                                <div className="mb-3">{item.title}</div>
+                            </div>
+                            <div id="pqt-container" className="flex gap-6">
+                                <div>
+                                    ${item.price}
+                                </div>
+                                <div className="flex justify-center items-center">
+                                    <div className="w-4" id="decrement-button">
+                                        <button type="button" onClick={() => decrement(item)}>-</button>
+                                    </div>
+                                    <div>{productQuantity}</div>
+                                    <div className="w-4" id="increment-button">
+                                        <button type="button" onClick={increment}>+</button>
+                                    </div>
+                                </div>
+                                <div>${item.price * productQuantity}</div>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
-            <div className="flex justify-end gap-8">
-                <div>Price</div>
-                <div>Quantity</div>
-                <div>Total</div>
-            </div>
-            <div>
-                {productItem.map((item) => (
-                    <div key={item.id} className="flex items-center justify-between">
-                        <div>
-                            <img className="w-40 h-40" src={item.image} alt="productImage" />
-                        </div>
-                        <div>
-                            <div className="mb-3">{item.title}</div>
-                        </div>
-                        <div id="pqt-container" className="flex gap-6">
-                            <div>
-                                ${item.price}
-                            </div>
-                            <div className="flex justify-center items-center">
-                                <div className="w-4" id="decrement-button">
-                                    <button type="button" onClick={()=>decrement(item)}>-</button>
-                                </div>
-                                <div>{productQuantity}</div>
-                                <div className="w-4" id="increment-button">
-                                    <button type="button" onClick={increment}>+</button>
-                                </div>
-                            </div>
-                            <div>${item.price * productQuantity}</div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </div>
-    )
+        ) : emptyProductItemCart())
 }
