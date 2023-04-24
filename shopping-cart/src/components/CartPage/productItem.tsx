@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 import { ProductItemContext } from "../contexts/productItemContext";
 import { ProductQuantityContext } from "../contexts/productQuantityContext";
 
@@ -17,7 +18,9 @@ export const CartItem = () => {
     return (
         <div className="flex flex-col m-10">
             <div className="flex justify-end mb-5">
-                <div>Back button</div>
+                <div>
+                    <Link to="/Shop"><button type="button">Back Button</button></Link>
+                </div>
             </div>
             <div className="flex justify-end gap-8">
                 <div>Price</div>
@@ -49,7 +52,7 @@ export const CartItem = () => {
                                     <button type="button" onClick={increment}>+</button>
                                 </div>
                             </div>
-                            <div>Total</div>
+                            <div>${item.price * productQuantity}</div>
                         </div>
                     </div>
                 ))}
