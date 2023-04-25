@@ -1,18 +1,41 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ProductItemContext } from "../contexts/productItemContext";
-import { ProductQuantityContext } from "../contexts/productQuantityContext";
-import { ShopContext } from "../contexts/shopProductContext";
+import { CartItemsContext } from "../Contexts/cartItemsContext";
+import { ProductItemContext } from "../Contexts/productItemContext";
 
-
-export const CartItem = () => {
+export const ProductItem = () => {
 
     const { productItem, setProductItem } = useContext(ProductItemContext);
-    const { productQuantity, setProductQuantity } = useContext(ProductQuantityContext);
 
-    const increment = (): void => {
-        setProductQuantity(productQuantity + 1);
+    const {setCartItems} = useContext(CartItemsContext);
+
+    // type total = number;
+    // type initialNumber = number;
+    // useEffect(()=>{
+        // setProductItem((eachProduct)=> eachProduct.map((eachProductItem)=> ({...eachProductItem,  amount: eachProductItem.quantity * eachProductItem.price })))
+    // },[]);
+
+    const increment = (item: {
+        id: number,
+        title: string,
+        price: number,
+        description: string,
+        category: string,
+        image: string,
+        rating: {
+            rate: string,
+            count: number
+        },
+        amount: number,
+        quantity: number
+    }) => {
+
+        //increment quantity by 1
+        setProductItem((eachProduct) => eachProduct.map((eachProductItem) => eachProductItem.id === item.id ? { ...eachProductItem, quantity: eachProductItem.quantity + 1} : eachProductItem));
+        //update the amount by getting the updated quantity to multiply price
+        setProductItem((eachProduct) => eachProduct.map((eachProductItem) => eachProductItem.id === item.id ? { ...eachProductItem, amount: eachProductItem.quantity * eachProductItem.price } : eachProductItem));
     }
+
     const decrement = (item: {
         id: number,
         title: string,
@@ -23,12 +46,17 @@ export const CartItem = () => {
         rating: {
             rate: string,
             count: number
-        }
+        },
+        amount: number,
+        quantity: number
     }) => {
-        if (productQuantity === 1) {
+        if (item.quantity === 1) {
             removeProductItem(item);
         } else {
-            setProductQuantity(productQuantity - 1);
+        //decrement quantity by 1
+        setProductItem((eachProduct) => eachProduct.map((eachProductItem) => eachProductItem.id === item.id ? { ...eachProductItem, quantity: eachProductItem.quantity - 1} : eachProductItem));
+        //update the amount by getting the updated quantity to multiply price
+        setProductItem((eachProduct) => eachProduct.map((eachProductItem) => eachProductItem.id === item.id ? { ...eachProductItem, amount: eachProductItem.quantity * eachProductItem.price } : eachProductItem));
         }
     }
 
@@ -42,7 +70,8 @@ export const CartItem = () => {
         rating: {
             rate: string,
             count: number
-        }
+        },
+        amount: number
     }) => {
         setProductItem((eachProductItem) => (
             eachProductItem.filter((eachProductItem) => eachProductItem.id !== item.id)
@@ -52,9 +81,10 @@ export const CartItem = () => {
     const emptyProductItemCart = () => {
         return (
             <div>
-                <p>Cart is empty, go back to shopping</p>
+                <p>Cart selected is empty, go back to shopping</p>
             </div>)
     }
+
     return (
         productItem.length === 1 ? (
             <div className="flex flex-col m-10">
@@ -74,27 +104,31 @@ export const CartItem = () => {
                             <div>
                                 <img className="w-40 h-40" src={item.image} alt="productImage" />
                             </div>
-                            <div>
-                                <div className="mb-3">{item.title}</div>
+                            <div id="title-container">
+                                <p>{item.title}</p>
                             </div>
-                            <div id="pqt-container" className="flex gap-6">
-                                <div>
-                                    ${item.price}
+                            <div id="pqt-container" className="flex gap-10">
+                                <div id="price-container">
+                                    <p> ${item.price}</p>
                                 </div>
-                                <div className="flex justify-center items-center">
-                                    <div className="w-4" id="decrement-button">
+                                <div className="flex justify-center items-center gap-2">
+                                    <div id="decrement-button">
                                         <button type="button" onClick={() => decrement(item)}>-</button>
                                     </div>
-                                    <div>{productQuantity}</div>
-                                    <div className="w-4" id="increment-button">
-                                        <button type="button" onClick={increment}>+</button>
+                                    <div>{item.quantity}</div>
+                                    <div id="increment-button">
+                                        <button type="button" onClick={() => increment(item)}>+</button>
                                     </div>
                                 </div>
-                                <div>${item.price * productQuantity}</div>
+                                <div id="total-price-container">{item.amount}</div>
                             </div>
                         </div>
                     ))}
                 </div>
+                <div id="add-to-cart-btn" className="flex justify-end m-3">
+                    {/* <button onClick={()=>{setCartItems(productItem)}}>Add to Cart</button> */}
+                </div>
             </div>
         ) : emptyProductItemCart())
+
 }
