@@ -8,94 +8,9 @@ import { AddProductItemToCart } from "./addItemToCart";
 import { Increment } from "./increment";
 export const ProductItem = () => {
 
-    const { productItem } = useContext(ProductItemContext);
+    const { productItem, setProductItem } = useContext(ProductItemContext);
 
     const { cartItems, setCartItems } = useContext(CartItemsContext);
-
-    // const increment = (item: {
-    //     id: number,
-    //     title: string,
-    //     price: number,
-    //     description: string,
-    //     category: string,
-    //     image: string,
-    //     rating: {
-    //         rate: string,
-    //         count: number
-    //     },
-    //     amount: number,
-    //     quantity: number
-    // }) => {
-
-    //     //increment quantity by 1
-    //     setProductItem((eachProduct) => eachProduct.map((eachProductItem) => eachProductItem.id === item.id ? { ...eachProductItem, quantity: eachProductItem.quantity + 1 } : eachProductItem));
-    //     //update the amount by getting the updated quantity to multiply price
-    //     setProductItem((eachProduct) => eachProduct.map((eachProductItem) => eachProductItem.id === item.id ? { ...eachProductItem, amount: eachProductItem.quantity * eachProductItem.price } : eachProductItem));
-
-    // }
-
-    // const decrement = (item: {
-    //     id: number,
-    //     title: string,
-    //     price: number,
-    //     description: string,
-    //     category: string,
-    //     image: string,
-    //     rating: {
-    //         rate: string,
-    //         count: number
-    //     },
-    //     amount: number,
-    //     quantity: number
-    // }) => {
-    //     if (item.quantity === 1) {
-    //         removeProductItem(item);
-    //     } else {
-    //         //decrement quantity by 1
-    //         setProductItem((eachProduct) => eachProduct.map((eachProductItem) => eachProductItem.id === item.id ? { ...eachProductItem, quantity: eachProductItem.quantity - 1 } : eachProductItem));
-    //         //update the amount by getting the updated quantity to multiply price
-    //         setProductItem((eachProduct) => eachProduct.map((eachProductItem) => eachProductItem.id === item.id ? { ...eachProductItem, amount: eachProductItem.quantity * eachProductItem.price } : eachProductItem));
-    //     }
-    // }
-
-    // const removeProductItem = (item: {
-    //     id: number,
-    //     title: string,
-    //     price: number,
-    //     description: string,
-    //     category: string,
-    //     image: string,
-    //     rating: {
-    //         rate: string,
-    //         count: number
-    //     },
-    //     amount: number
-    // }) => {
-    //     setProductItem((eachProductItem) => (
-    //         eachProductItem.filter((eachProductItem) => eachProductItem.id !== item.id)
-    //     ));
-    // }
-
-    // const addProductItemToCart = (item: {
-    //     id: number,
-    //     title: string,
-    //     price: number,
-    //     description: string,
-    //     category: string,
-    //     image: string,
-    //     rating: {
-    //         rate: string,
-    //         count: number
-    //     },
-    //     amount: number,
-    //     quantity: number
-    // }, quantity: number, amount: number) => {
-    //     if (cartItems.some((cartItem) => cartItem.id === item.id)) {
-    //         setCartItems((cartItems) => cartItems.map((eachCartItem) => eachCartItem.id === item.id ? { ...eachCartItem, quantity: eachCartItem.quantity + quantity, amount: eachCartItem.amount + amount } : eachCartItem));
-    //     } else {
-    //         setCartItems((cartItems) => [...cartItems, item])
-    //     }
-    // }
 
 
 
@@ -128,16 +43,14 @@ export const ProductItem = () => {
                                     </div>
                                     <div className="flex justify-center items-center gap-2">
                                         <div id="decrement-button">
-                                         <Decrement item={item}/>
+                                            <Decrement item={item} setProductItem={setProductItem} />
                                         </div>
                                         <div>{item.quantity}</div>
-                                        <Increment item ={item}/>
+                                        <div id="increment-button"> <Increment item={item} setProductItem={setProductItem} /></div>
                                     </div>
                                     <div id="total-price-container">{item.amount}</div>
                                 </div>
-                                <div id="add-to-cart-btn" className="flex justify-end">
-                                    <Link to="/Shop"><button onClick={() => { AddProductItemToCart(item, item.quantity, item.amount) }}>Add to Cart</button></Link>
-                                </div>
+                                <AddProductItemToCart item={item} cartItems={cartItems} setCartItems={setCartItems} />
                             </div>
                         </div>
                     ))}
@@ -145,21 +58,4 @@ export const ProductItem = () => {
             </div>
         ) : emptyProductItemCart())
 
-}
-
-export interface IncreDecrementProps {
-    item: {
-        id: number,
-        title: string,
-        price: number,
-        description: string,
-        category: string,
-        image: string,
-        rating: {
-            rate: string,
-            count: number
-        },
-        amount: number,
-        quantity: number
-    }
 }

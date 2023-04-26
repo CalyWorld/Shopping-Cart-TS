@@ -1,5 +1,5 @@
-import {useEffect } from "react";
-import { ShopCollection } from "./contexts/shopProductContext";
+import { useEffect } from "react";
+import { ShopCollection } from "./Contexts/shopProductContext";
 
 
 export const useFetch = (url: string, setShopProducts: React.Dispatch<React.SetStateAction<ShopCollection[]>>) => {
@@ -13,7 +13,14 @@ export const useFetch = (url: string, setShopProducts: React.Dispatch<React.SetS
                     console.log("error with connection");
                 } else {
                     const data = await promise.json();
-                    setShopProducts(data);
+                    const productsWithAmount = data.map((product: ShopCollection) => {
+                        return {
+                            ...product,
+                            quantity: 1,
+                            amount: product.price,
+                        }
+                    });
+                    setShopProducts(productsWithAmount);
                 }
             } catch (err) {
                 console.log("failed to fetch data, there are errors");

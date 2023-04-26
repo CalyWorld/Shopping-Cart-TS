@@ -1,13 +1,13 @@
 import { useContext } from "react"
 import { Link } from "react-router-dom";
-import { ProductItemContext } from "../contexts/productItemContext";
-import { ShopContext } from "../contexts/shopProductContext"
+import { ProductItemContext } from "../Contexts/productItemContext";
+import { ShopContext } from "../Contexts/shopProductContext"
 export const ShopPage = () => {
 
     const { shopProducts } = useContext(ShopContext);
     const { setProductItem } = useContext(ProductItemContext);
 
-    const viewSelectedCart = (data: {
+    const viewSelectedProduct = (data: {
         id: number,
         title: string,
         price: number,
@@ -17,8 +17,12 @@ export const ShopPage = () => {
         rating: {
             rate: string,
             count: number
-        }
+        },
+        amount: number
+        quantity: number
     }): void => {
+
+        console.log(data);
         setProductItem([data]);
     }
 
@@ -36,7 +40,7 @@ export const ShopPage = () => {
                         ${data.price}
                     </div>
                     <div className="hover:bg-lightMidnight">
-                        <Link to={`/Cart/:${data.id}`}><button className="hover:text-whiteTextColor" onClick={() => {viewSelectedCart(data) }}>Add item</button></Link>
+                        <Link to={`/Cart/:${data.id}`}><button className="hover:text-whiteTextColor" onClick={() => { viewSelectedProduct(data) }}>Add item</button></Link>
                     </div>
                 </div>
             ))}
