@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { CartItemsProps } from "./cartItemProps";
-export const AddProductItemToCart = ({item,cartItems,setCartItems}:CartItemsProps) => {
+import { ProductCartProps } from "./ItemProps";
+export const AddProductItemToCart = ({item,cartItems,setCartItems}:ProductCartProps) => {
 
     const addProductItemToCart = (item: {
         id: number,

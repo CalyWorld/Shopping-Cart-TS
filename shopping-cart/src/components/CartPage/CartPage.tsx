@@ -2,13 +2,25 @@ import { useContext } from "react";
 import { CartItemsContext } from "../Contexts/cartItemsContext";
 import { Link } from "react-router-dom";
 import { emptyProductItemCart } from "./emptyProductCart";
+import { Decrement } from "./decrement";
+import { Increment } from "./increment";
+import { ProductItemContext } from "../Contexts/productItemContext";
 export const CartPage = () => {
 
-    const { cartItems } = useContext(CartItemsContext);
+    const { cartItems, setCartItems } = useContext(CartItemsContext);
+    const { setProductItem } = useContext(ProductItemContext);
 
-    console.log(cartItems);
+    let initialValue: number = 0;
+    let total: number;
+
+    let incrementItem: string = "increment-cart-item";
+    let decrementItem: string = "decrement-cart-item";
+
+
+    total = Math.floor(cartItems.reduce((prev, next) => prev + next.amount, initialValue));
+
     return (
-        cartItems.length === 1 ? (
+        cartItems.length > 0 ? (
             <div className="flex flex-col m-10">
                 <div className="flex justify-end mb-5">
                     <div>
@@ -20,7 +32,7 @@ export const CartPage = () => {
                     <div>Quantity</div>
                     <div>Total</div>
                 </div>
-                <div>
+                <div className="flex flex-col gap-2">
                     {cartItems.map((item) => (
                         <div key={item.id} className="flex items-center justify-between">
                             <div>
@@ -36,21 +48,24 @@ export const CartPage = () => {
                                     </div>
                                     <div className="flex justify-center items-center gap-2">
                                         <div id="decrement-button">
-                                            <button type="button">-</button>
+                                            <Decrement item={item} incrementItem={incrementItem} decrementItem={decrementItem} cartItems={cartItems} setProductItem={setProductItem} setCartItems={setCartItems} />
                                         </div>
                                         <div>{item.quantity}</div>
                                         <div id="increment-button">
-                                            <button type="button">+</button>
+                                            <Increment item={item} incrementItem={incrementItem} decrementItem={decrementItem} cartItems={cartItems} setProductItem={setProductItem} setCartItems={setCartItems} />
                                         </div>
                                     </div>
                                     <div id="total-price-container">{item.amount}</div>
                                 </div>
-                                <div id="add-to-cart-btn" className="flex justify-end">
-                                    <Link to="/Shop"><button>Add to Cart</button></Link>
-                                </div>
                             </div>
                         </div>
                     ))}
+                    <div className="flex justify-end gap-3">
+                        <div>
+                            <p>{total}</p>
+                        </div>
+                        <div id="checkout-button">Check-out</div>
+                    </div>
                 </div>
             </div>
         ) : emptyProductItemCart())

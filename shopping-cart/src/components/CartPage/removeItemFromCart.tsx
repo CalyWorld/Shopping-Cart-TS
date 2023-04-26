@@ -12,9 +12,13 @@ export const removeProductItem = (item: {
         count: number
     },
     amount: number
-}, setProductItem:React.Dispatch<React.SetStateAction<ShopCollection[]>>) => {
+}, decrementItem:string, setProductItem:React.Dispatch<React.SetStateAction<ShopCollection[]>>, setCartItem:React.Dispatch<React.SetStateAction<ShopCollection[]>>) => {
 
+    if(decrementItem === "decrement-product-item"){
     setProductItem((eachProductItem) => (
         eachProductItem.filter((eachProductItem) => eachProductItem.id !== item.id)
     ));
+    }else if(decrementItem === "decrement-cart-item"){
+        setCartItem((eachCartItem)=>eachCartItem.filter((eachCartItemProduct)=>eachCartItemProduct.id !== item.id));
+    }
 }

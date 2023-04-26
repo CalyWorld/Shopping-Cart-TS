@@ -12,7 +12,8 @@ export const ProductItem = () => {
 
     const { cartItems, setCartItems } = useContext(CartItemsContext);
 
-
+    let incrementItem : string = "increment-product-item";
+    let decrementItem : string = "decrement-product-item";
 
     return (
         productItem.length === 1 ? (
@@ -43,14 +44,16 @@ export const ProductItem = () => {
                                     </div>
                                     <div className="flex justify-center items-center gap-2">
                                         <div id="decrement-button">
-                                            <Decrement item={item} setProductItem={setProductItem} />
+                                            <Decrement decrementItem={decrementItem} incrementItem={incrementItem} item={item} cartItems={cartItems} setCartItems={setCartItems} setProductItem={setProductItem} />
                                         </div>
                                         <div>{item.quantity}</div>
-                                        <div id="increment-button"> <Increment item={item} setProductItem={setProductItem} /></div>
+                                        <div id="increment-button">
+                                            <Increment decrementItem={decrementItem} incrementItem={incrementItem} item={item} cartItems={cartItems} setCartItems={setCartItems} setProductItem={setProductItem} />
+                                        </div>
                                     </div>
                                     <div id="total-price-container">{item.amount}</div>
                                 </div>
-                                <AddProductItemToCart item={item} cartItems={cartItems} setCartItems={setCartItems} />
+                                <AddProductItemToCart item={item} incrementItem={incrementItem} decrementItem={decrementItem} cartItems={cartItems} setProductItem={setProductItem} setCartItems={setCartItems} />
                             </div>
                         </div>
                     ))}

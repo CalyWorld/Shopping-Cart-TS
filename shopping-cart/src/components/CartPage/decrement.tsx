@@ -1,8 +1,7 @@
 import { removeProductItem } from "./removeItemFromCart";
-import { IncreDecrementProps } from "./productItemProps";
+import { ProductCartProps } from "./ItemProps";
 import { ShopCollection } from "../Contexts/shopProductContext";
-export const Decrement = ({item, setProductItem}:IncreDecrementProps) => {
-
+export const Decrement = ({ item, setProductItem, setCartItems, decrementItem }: ProductCartProps) => {
 
     const decrement = (item: {
         id: number,
@@ -17,14 +16,19 @@ export const Decrement = ({item, setProductItem}:IncreDecrementProps) => {
         },
         amount: number,
         quantity: number
-    }, setProductItem:React.Dispatch<React.SetStateAction<ShopCollection[]>>) => {
+    }, setProductItem: React.Dispatch<React.SetStateAction<ShopCollection[]>>) => {
         if (item.quantity === 1) {
-            removeProductItem(item, setProductItem);
-        } else {
-            //decrement quantity by 1
+            removeProductItem(item, decrementItem, setProductItem, setCartItems);
+        } else if (decrementItem === "decrement-product-item") {
+            //decrement product item quantity by 1
             setProductItem((eachProduct) => eachProduct.map((eachProductItem) => eachProductItem.id === item.id ? { ...eachProductItem, quantity: eachProductItem.quantity - 1 } : eachProductItem));
-            //update the amount by getting the updated quantity to multiply price
+            //update the amount by getting the updated product item quantity to multiply price
             setProductItem((eachProduct) => eachProduct.map((eachProductItem) => eachProductItem.id === item.id ? { ...eachProductItem, amount: eachProductItem.quantity * eachProductItem.price } : eachProductItem));
+        } else if (decrementItem === "decrement-cart-item") {
+            //decrement cart item quantity by 1
+            setCartItems((eachCartItem) => eachCartItem.map((eachCartItemProduct) => eachCartItemProduct.id === item.id ? { ...eachCartItemProduct, quantity: eachCartItemProduct.quantity - 1 } : eachCartItemProduct));
+            //update the amount by getting updated cart item quantity to multiply by price
+            setCartItems((eachProduct) => eachProduct.map((eachCartItemProduct) => eachCartItemProduct.id === item.id ? { ...eachCartItemProduct, amount: eachCartItemProduct.quantity * eachCartItemProduct.price } : eachCartItemProduct));
         }
     }
     return (
