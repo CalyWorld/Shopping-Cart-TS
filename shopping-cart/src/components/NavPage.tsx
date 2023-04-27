@@ -1,8 +1,14 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { CartScoreContext } from "./Contexts/cartScoreContext";
+import { ThemeContext } from "./Contexts/themeContext";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faLightbulb} from '@fortawesome/free-solid-svg-icons'
 export const NavPage = () => {
     const { cartScore } = useContext(CartScoreContext);
+    const { theme, setTheme } = useContext(ThemeContext);
+
+
     return (
         <div className="flex justify-between ml-3 mr-3">
             <ul>
@@ -24,7 +30,9 @@ export const NavPage = () => {
                     <Link to="/Contact">Contact</Link>
                 </li>
                 <li>
-                    <button type="button">theme</button>
+                    <button type="button" onClick={() => { setTheme(!theme) }}>
+                    <FontAwesomeIcon icon={faLightbulb} />
+                    </button>
                 </li>
             </ul>
         </div>
