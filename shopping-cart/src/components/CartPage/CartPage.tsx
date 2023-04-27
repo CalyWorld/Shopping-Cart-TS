@@ -5,10 +5,13 @@ import { emptyProductItemCart } from "./emptyProductCart";
 import { Decrement } from "./decrement";
 import { Increment } from "./increment";
 import { ProductItemContext } from "../Contexts/productItemContext";
+import { removeProductItem } from "./removeItemFromCart";
+import { CartScoreContext } from "../Contexts/cartScoreContext";
 export const CartPage = () => {
 
     const { cartItems, setCartItems } = useContext(CartItemsContext);
     const { setProductItem } = useContext(ProductItemContext);
+    const { setCartScore} = useContext(CartScoreContext);
 
     let initialValue: number = 0;
     let total: number;
@@ -21,7 +24,7 @@ export const CartPage = () => {
 
     return (
         cartItems.length > 0 ? (
-            <div className="flex flex-col m-10">
+            <div className="flex flex-col m-3">
                 <div className="flex justify-end mb-5">
                     <div>
                         <Link to="/Shop"><button type="button">Back Button</button></Link>
@@ -38,8 +41,9 @@ export const CartPage = () => {
                             <div>
                                 <img className="w-40 h-40" src={item.image} alt="productImage" />
                             </div>
-                            <div id="title-container">
+                            <div id="title-container" className="flex flex-col justify-start gap-3">
                                 <p>{item.title}</p>
+                                <button type="button" onClick={()=>{removeProductItem(item, decrementItem, setCartItems, setProductItem, setCartScore)}}>Remove item</button>
                             </div>
                             <div id="pqt-add-to-cart-btn-holder" className="flex flex-col gap-2">
                                 <div id="pqt-container" className="flex gap-10">
@@ -62,7 +66,7 @@ export const CartPage = () => {
                     ))}
                     <div className="flex justify-end gap-3">
                         <div>
-                            <p>{total}</p>
+                            <p>${total}</p>
                         </div>
                         <div id="checkout-button">Check-out</div>
                     </div>

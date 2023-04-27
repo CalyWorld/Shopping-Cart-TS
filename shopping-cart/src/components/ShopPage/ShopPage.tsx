@@ -39,7 +39,7 @@ export const ShopPage = () => {
                     <div>
                         ${data.price}
                     </div>
-                    <div className="hover:bg-lightMidnight">
+                    <div className="hover:bg-lightMidnight w-full">
                         <Link to={`/Cart/:${data.id}`}><button className="hover:text-whiteTextColor" onClick={() => { viewSelectedProduct(data) }}>Add item</button></Link>
                     </div>
                 </div>

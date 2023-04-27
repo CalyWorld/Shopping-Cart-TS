@@ -1,8 +1,11 @@
 import { removeProductItem } from "./removeItemFromCart";
 import { ProductCartProps } from "./ItemProps";
 import { ShopCollection } from "../Contexts/shopProductContext";
+import { useContext } from "react";
+import { CartScoreContext } from "../Contexts/cartScoreContext";
 export const Decrement = ({ item, setProductItem, setCartItems, decrementItem }: ProductCartProps) => {
 
+    const { setCartScore } = useContext(CartScoreContext);
     const decrement = (item: {
         id: number,
         title: string,
@@ -18,7 +21,7 @@ export const Decrement = ({ item, setProductItem, setCartItems, decrementItem }:
         quantity: number
     }, setProductItem: React.Dispatch<React.SetStateAction<ShopCollection[]>>) => {
         if (item.quantity === 1) {
-            removeProductItem(item, decrementItem, setProductItem, setCartItems);
+            removeProductItem(item, decrementItem, setProductItem, setCartItems,  setCartScore);
         } else if (decrementItem === "decrement-product-item") {
             //decrement product item quantity by 1
             setProductItem((eachProduct) => eachProduct.map((eachProductItem) => eachProductItem.id === item.id ? { ...eachProductItem, quantity: eachProductItem.quantity - 1 } : eachProductItem));

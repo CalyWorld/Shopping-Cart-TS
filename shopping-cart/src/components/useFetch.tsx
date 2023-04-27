@@ -1,8 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ShopCollection } from "./Contexts/shopProductContext";
 
 
 export const useFetch = (url: string, setShopProducts: React.Dispatch<React.SetStateAction<ShopCollection[]>>) => {
+
+    const [loading, setLoading] = useState<boolean>(true);
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -21,11 +23,13 @@ export const useFetch = (url: string, setShopProducts: React.Dispatch<React.SetS
                         }
                     });
                     setShopProducts(productsWithAmount);
+                    setLoading(false);
                 }
             } catch (err) {
                 console.log("failed to fetch data, there are errors");
             }
         }
         fetchData();
-    }, [url, setShopProducts])
+    }, [url, setShopProducts]);
+    return {loading}
 }

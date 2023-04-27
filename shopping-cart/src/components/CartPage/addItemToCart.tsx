@@ -1,6 +1,11 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { CartScoreContext } from "../Contexts/cartScoreContext";
+import { initialShopProduct } from "../Contexts/shopProductContext";
 import { ProductCartProps } from "./ItemProps";
-export const AddProductItemToCart = ({item,cartItems,setCartItems}:ProductCartProps) => {
+export const AddProductItemToCart = ({item,cartItems,setCartItems,setProductItem}:ProductCartProps) => {
+
+    const {setCartScore} = useContext(CartScoreContext);
 
     const addProductItemToCart = (item: {
         id: number,
@@ -19,7 +24,9 @@ export const AddProductItemToCart = ({item,cartItems,setCartItems}:ProductCartPr
         if (cartItems.some((cartItem) => cartItem.id === item.id)) {
             setCartItems((cartItems) => cartItems.map((eachCartItem) => eachCartItem.id === item.id ? { ...eachCartItem, quantity: eachCartItem.quantity + quantity, amount: eachCartItem.amount + amount } : eachCartItem));
         } else {
-            setCartItems((cartItems) => [...cartItems, item])
+            setCartItems((cartItems) => [...cartItems, item]);
+            setCartScore((cartScore)=> cartScore+1);
+            setProductItem([initialShopProduct]);
         }
     }
     return (
