@@ -5,7 +5,6 @@ import { emptyProductItemCart } from "./emptyProductCart";
 import { Decrement } from "./decrement";
 import { Increment } from "./increment";
 import { ProductItemContext } from "../Contexts/productItemContext";
-import { removeProductItem } from "./removeItemFromCart";
 import { CartScoreContext } from "../Contexts/cartScoreContext";
 export const CartPage = () => {
 
@@ -22,6 +21,24 @@ export const CartPage = () => {
 
     total = Math.floor(cartItems.reduce((prev, next) => prev + next.amount, initialValue));
 
+    const removeCartItem = (item:{
+        id: number,
+        title: string,
+        price: number,
+        description: string,
+        category: string,
+        image: string,
+        rating: {
+            rate: string,
+            count: number
+        },
+        amount: number,
+        quantity: number
+    })=>{
+        setCartItems((cartItems)=>cartItems.filter((cartItem)=> cartItem.id !== item.id)); 
+        setCartScore((cartScore)=>cartScore-1);
+    }
+    
     return (
         cartItems.length > 0 ? (
             <div className="flex flex-col m-3">
@@ -43,7 +60,7 @@ export const CartPage = () => {
                             </div>
                             <div id="title-container" className="flex flex-col justify-start gap-3">
                                 <p>{item.title}</p>
-                                <button type="button" onClick={()=>{removeProductItem(item, decrementItem, setCartItems, setProductItem, setCartScore)}}>Remove item</button>
+                                <button type="button" onClick={()=>{removeCartItem(item)}}>Remove item</button>
                             </div>
                             <div id="pqt-add-to-cart-btn-holder" className="flex flex-col gap-2">
                                 <div id="pqt-container" className="flex gap-10">
