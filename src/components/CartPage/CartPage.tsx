@@ -83,7 +83,7 @@ export const CartPage = () => {
                     ))}
                     <div className="flex justify-end gap-3">
                         <div>
-                            <p>${total}</p>
+                            <p>Total: ${total}</p>
                         </div>
                         <div id="checkout-button">Check-out</div>
                     </div>

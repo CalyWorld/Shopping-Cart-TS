@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 *{
-  outline: solid 1px red;
+  /* outline: solid 1px red; */
   box-sizing: border-box;
 }
 body {
@@ -13,6 +13,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.black-background {
+  background-color: black;
+}
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

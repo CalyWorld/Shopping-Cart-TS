@@ -29,7 +29,8 @@ export const useFetch = (url: string, setShopProducts: React.Dispatch<React.SetS
                 console.log("failed to fetch data, there are errors");
             }
         }
-        fetchData();
+        //clea nup function
+        return () => {fetchData()}
     }, [url, setShopProducts]);
     return {loading}
 }

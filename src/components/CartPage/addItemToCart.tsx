@@ -30,8 +30,10 @@ export const AddProductItemToCart = ({item,cartItems,setCartItems,setProductItem
         }
     }
     return (
-        <div id="add-to-cart-btn" className="flex justify-end">
-            <Link to="/Shop"><button onClick={() => { addProductItemToCart(item, item.quantity, item.amount) }}>Add to Cart</button></Link>
+        <div id="add-to-cart-btn" className="flex justify-end hover:bg-lightMidnight">
+            <Link to="/Shop">
+                <button className="hover:text-whiteTextColor" onClick={() => { addProductItemToCart(item, item.quantity, item.amount) }}>Add to Cart</button>
+            </Link>
         </div>
     )
 

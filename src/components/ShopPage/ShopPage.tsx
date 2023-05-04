@@ -2,10 +2,20 @@ import { useContext } from "react"
 import { Link } from "react-router-dom";
 import { ProductItemContext } from "../Contexts/productItemContext";
 import { ShopContext } from "../Contexts/shopProductContext"
+import { useFetch } from "../useFetch";
 export const ShopPage = () => {
 
-    const { shopProducts } = useContext(ShopContext);
+    const { shopProducts, setShopProducts } = useContext(ShopContext);
     const { setProductItem } = useContext(ProductItemContext);
+
+    let url: string = "https://fakestoreapi.com/products/";
+
+    const {loading} = useFetch(url,setShopProducts);
+    if (loading) {
+        return (
+          <div>Getting data</div>
+        )
+      }
 
     const viewSelectedProduct = (data: {
         id: number,
@@ -27,7 +37,7 @@ export const ShopPage = () => {
     }
 
     return (
-        <div className="grid grid-cols-3 justify-around items-center gap-4 m-5 pointer-events-auto">
+        <div className="grid grid-cols-3 justify-around items-center gap-4 pointer-events-auto">
             {shopProducts.map((data) => (
                 <div key={data.id} className="flex flex-col justify-between items-center gap-2 h-full">
                     <div>
