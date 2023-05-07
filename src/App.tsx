@@ -26,18 +26,11 @@ function App() {
   const [theme, setTheme] = useState<boolean>(false);
 
 
-
-
-
-  console.log("product-items", productItem);
-  console.log("cart-items", cartItems);
-
-
   return (
-    <ThemeContext.Provider value={{theme, setTheme}}>
-    <div className="App">
-      <Router>
-        <div id='container'className={`${theme ? "bg-dark-mode-background text-whiteTextColor" : ""}`}>
+    <ThemeContext.Provider value={{ theme, setTheme }}>
+      <div className="App">
+        <Router>
+          <div id='container' className={` flex  flex-col gap-5 ${theme ? "bg-dark-mode-background text-whiteTextColor" : ""}`}>
             <CartItemsContext.Provider value={{ cartItems, setCartItems }}>
               <CartScoreContext.Provider value={{ cartScore, setCartScore }}>
                 <Header>
@@ -57,9 +50,9 @@ function App() {
                 <Footer />
               </CartScoreContext.Provider>
             </CartItemsContext.Provider>
-        </div>
-      </Router>
-    </div>
+          </div>
+        </Router>
+      </div>
     </ThemeContext.Provider>
   );
 }

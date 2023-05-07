@@ -10,7 +10,7 @@ export const ContactPage = () => {
 
     return (
         <div className="flex justify-center items-center">
-           <a href="https://github.com/CalyWorld" target="_blank"><FaGithub style={iconStyle}/></a>
+           <a href="https://github.com/CalyWorld" rel="noreferrer" target="_blank"><FaGithub style={iconStyle}/></a>
         </div>
     )
 }
